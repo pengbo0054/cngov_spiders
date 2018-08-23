@@ -18,7 +18,7 @@ class GovSpider(Spider):
     page = int(re.sub('\D', '', bs.find_all('form', id='toPage')[0].li.text))
 
     start_urls = ["http://sousuo.gov.cn/column/31510/%s.htm"% (i) for i in range(page)]
-    #start_urls = ["http://sousuo.gov.cn/column/30474/0.htm"]
+    #start_urls = ["http://sousuo.gov.cn/column/30474/%s.htm"% (i) for i in range(2)]
 
     def parse(self, response):
         sel = Selector(response)

@@ -17,8 +17,8 @@ class GovSpider(Spider):
     bs = BeautifulSoup(request.urlopen(url), features="lxml")
     page = int(re.sub('\D', '', bs.find_all('form', id='toPage')[0].li.text))
 
-    # start_urls = ["http://sousuo.gov.cn/column/30902/%s.htm?"% (i) for i in range(page)]
-    start_urls = ["http://sousuo.gov.cn/column/30902/0.htm?"]
+    start_urls = ["http://sousuo.gov.cn/column/30902/%s.htm?"% (i) for i in range(page)]
+    #start_urls = ["http://sousuo.gov.cn/column/30902/%s.htm?"% (i) for i in range(2)]
     
     def parse(self, response):
         sel = Selector(response)

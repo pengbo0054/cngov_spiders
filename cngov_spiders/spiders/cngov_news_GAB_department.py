@@ -18,7 +18,7 @@ class GovSpider(Spider):
     page = int(re.sub('\D', '', bs.find_all('form', id='toPage')[0].li.text))
 
     start_urls = ["http://sousuo.gov.cn/column/30613/%s.htm?"%(i) for i in range(page)]
-
+    #start_urls = ["http://sousuo.gov.cn/column/30613/%s.htm?"% (i) for i in range(2)]
     def parse(self, response):
         sel = Selector(response)
         sites = sel.xpath('/html/body/div[2]/div/div[2]/div[2]/ul/li')
@@ -27,6 +27,7 @@ class GovSpider(Spider):
             item['name'] = site.xpath('.//h4/a/text()').extract()
             item['url'] = site.xpath('.//h4/a/@href')[0].extract()
             item['timestamp'] = site.xpath('.//h4/span/text()').extract()
+            item['year'],item['month'],item['day'] = item['timestamp'][0].split('.')
             item['belong'] = ['新闻']
             item['sub_belong'] = ['政务联播']
             item['classes'] = ['部门']

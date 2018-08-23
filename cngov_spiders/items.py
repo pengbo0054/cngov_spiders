@@ -12,6 +12,9 @@ class Website(Item):
 
     name = Field()
     timestamp = Field()
+    year = Field()
+    month = Field()
+    day = Field()
     url = Field()
     body = Field()
     belong = Field()
