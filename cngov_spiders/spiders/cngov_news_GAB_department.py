@@ -5,7 +5,7 @@ from cngov_spiders.items import Website
 from urllib import request
 from bs4 import BeautifulSoup
 from textrank4zh import TextRank4Keyword, TextRank4Sentence
-
+from mode import mode
 import re
 
 
@@ -16,9 +16,11 @@ class GovSpider(Spider):
     url = "http://sousuo.gov.cn/column/30613/0.htm?"
     bs = BeautifulSoup(request.urlopen(url), features="lxml")
     page = int(re.sub('\D', '', bs.find_all('form', id='toPage')[0].li.text))
-
-    start_urls = ["http://sousuo.gov.cn/column/30613/%s.htm?"%(i) for i in range(page)]
-    #start_urls = ["http://sousuo.gov.cn/column/30613/%s.htm?"% (i) for i in range(2)]
+    if mode == 'latest':
+        start_urls = ["http://sousuo.gov.cn/column/30613/%s.htm?"% (i) for i in range(2)]
+    else:
+        start_urls = ["http://sousuo.gov.cn/column/30613/%s.htm?"%(i) for i in range(page)]
+        
     def parse(self, response):
         sel = Selector(response)
         sites = sel.xpath('/html/body/div[2]/div/div[2]/div[2]/ul/li')

@@ -5,6 +5,7 @@ from cngov_spiders.items import Website
 from urllib import request
 from bs4 import BeautifulSoup
 from textrank4zh import TextRank4Keyword, TextRank4Sentence
+from mode import mode
 
 import re
 
@@ -17,8 +18,10 @@ class GovSpider(Spider):
     bs = BeautifulSoup(request.urlopen(url), features="lxml")
     page = int(re.sub('\D', ' ', bs.find_all('span', attrs={'class': ['jilu']})[0].text).split()[0])
 
-    start_urls = ["http://sousuo.gov.cn/list.htm?q=&n=100&p=%s&t=paper&sort=pubtime&childtype=&subchildtype=&pcodeJiguan=&pcodeYear=&pcodeNum=&location=&searchfield=&title=&content=&pcode=&puborg=&timetype=timeqb&mintime=&maxtime="%(i) for i in range(page)]
-    #start_urls = ["http://sousuo.gov.cn/list.htm?q=&n=10&p=0&t=paper&sort=pubtime&childtype=&subchildtype=&pcodeJiguan=&pcodeYear=&pcodeNum=&location=&searchfield=&title=&content=&pcode=&puborg=&timetype=timeqb&mintime=&maxtime="]
+    if mode == 'latest':
+        start_urls = ["http://sousuo.gov.cn/list.htm?q=&n=10&p=0&t=paper&sort=pubtime&childtype=&subchildtype=&pcodeJiguan=&pcodeYear=&pcodeNum=&location=&searchfield=&title=&content=&pcode=&puborg=&timetype=timeqb&mintime=&maxtime="]
+    else:
+        start_urls = ["http://sousuo.gov.cn/list.htm?q=&n=100&p=%s&t=paper&sort=pubtime&childtype=&subchildtype=&pcodeJiguan=&pcodeYear=&pcodeNum=&location=&searchfield=&title=&content=&pcode=&puborg=&timetype=timeqb&mintime=&maxtime="%(i) for i in range(page)]
 
     def parse(self, response):
         sel = Selector(response)
