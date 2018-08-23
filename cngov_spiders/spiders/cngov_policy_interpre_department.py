@@ -19,9 +19,9 @@ class GovSpider(Spider):
     page = int(re.sub('\D', '', bs.find_all('form', id='toPage')[0].li.text))
 
     if MODE == 'latest':
-        start_urls = ["http://sousuo.gov.cn/column/30474/%s.htm"% (i) for i in range(page)]
-    else:
         start_urls = ["http://sousuo.gov.cn/column/30474/%s.htm"% (i) for i in range(2)]
+    else:
+        start_urls = ["http://sousuo.gov.cn/column/30474/%s.htm"% (i) for i in range(page)]
 
     def parse(self, response):
         sel = Selector(response)
