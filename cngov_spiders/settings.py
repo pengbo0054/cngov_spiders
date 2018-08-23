@@ -75,6 +75,7 @@ ELASTICSEARCH_INDEX = 'cngov'
 ELASTICSEARCH_TYPE = 'items'
 ELASTICSEARCH_UNIQ_KEY = 'url'
 DEPTH_LIMIT = 2
+MODE = 'latest'
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True

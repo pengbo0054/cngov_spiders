@@ -2,10 +2,10 @@ from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from scrapy.http import Request
 from cngov_spiders.items import Website
+from cngov_spiders.settings import MODE
 from urllib import request
 from bs4 import BeautifulSoup
 from textrank4zh import TextRank4Keyword, TextRank4Sentence
-from mode import mode
 import re
 
 
@@ -16,7 +16,7 @@ class GovSpider(Spider):
     url = "http://sousuo.gov.cn/column/30613/0.htm?"
     bs = BeautifulSoup(request.urlopen(url), features="lxml")
     page = int(re.sub('\D', '', bs.find_all('form', id='toPage')[0].li.text))
-    if mode == 'latest':
+    if MODE == 'latest':
         start_urls = ["http://sousuo.gov.cn/column/30613/%s.htm?"% (i) for i in range(2)]
     else:
         start_urls = ["http://sousuo.gov.cn/column/30613/%s.htm?"%(i) for i in range(page)]
