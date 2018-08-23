@@ -2,7 +2,7 @@ import os
 import time
 import concurrent.futures
 
-spider_dir = '/home/pengbo/project/cngov_spiders/cngov_spiders/spiders'
+spider_dir = '/cngov_spiders/cngov_spiders/spiders'
 scripts = os.listdir(spider_dir)
 files = [file for file in scripts if file.endswith('.py') and file.startswith('cngov')]
 spiders = [spider.split('.')[0] for spider in files]
