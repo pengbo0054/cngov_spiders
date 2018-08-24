@@ -70,8 +70,8 @@ ITEM_PIPELINES = {
     'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline': 300,
 }
 
-ELASTICSEARCH_SERVERS = ['http://192.168.99.100:31623/']
-#ELASTICSEARCH_SERVERS = ['http://47.95.181.251:9200/']
+#ELASTICSEARCH_SERVERS = ['http://192.168.99.100:31623/']
+ELASTICSEARCH_SERVERS = ['http://47.94.26.73:9200/']
 ELASTICSEARCH_INDEX = 'cngov'
 ELASTICSEARCH_TYPE = 'items'
 ELASTICSEARCH_UNIQ_KEY = 'url'
