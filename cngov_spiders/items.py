@@ -23,3 +23,6 @@ class Website(Item):
     keyphase = Field()
     keysentence = Field()
     classes = Field()
+    title = Field()
+    author = Field()
+    text = Field()

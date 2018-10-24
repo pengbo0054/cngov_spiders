@@ -16,8 +16,8 @@ class GovSpider(Spider):
     url = "http://sousuo.gov.cn/column/30469/0.htm?"
     bs = BeautifulSoup(request.urlopen(url), features="lxml")
     page = int(re.sub('\D', '', bs.find_all('form', id='toPage')[0].li.text))
-    start_urls = ["http://sousuo.gov.cn/column/30469/%s.htm?"%(i) for i in range(page)]
-
+    #start_urls = ["http://sousuo.gov.cn/column/30469/%s.htm?"%(i) for i in range(page)]
+    start_urls = ["http://sousuo.gov.cn/column/30469/0.htm?"]
     def parse(self, response):
         """
         The lines below is a spider contract. For more info see:
@@ -31,9 +31,9 @@ class GovSpider(Spider):
         sites = sel.xpath('/html/body/div[2]/div/div[2]/div[2]/ul/li')
         for site in sites:
             item = Website()
-            item['name'] = site.xpath('.//h4/a/text()').extract()
+            item['title'] = site.xpath('.//h4/a/text()').extract()
             item['url'] = site.xpath('.//h4/a/@href')[0].extract()
-            item['timestamp'] = site.xpath('.//h4/span/text()').extract()
+            item['author'] = site.xpath('.//h4/span/text()').extract()
             item['belong'] = ['政策']
             item['sub_belong'] = ['最新']
             yield Request(url=item['url'], meta={'item': item}, callback=self.parse_body, dont_filter=True)
@@ -42,7 +42,7 @@ class GovSpider(Spider):
         item = response.meta['item']
         contents = response.xpath('//*[@id="UCAP-CONTENT"]/p/text()').extract()
 
-        item['body'] = contents
+        item['text'] = contents
 
         def nlp(contents):
             tr4w = TextRank4Keyword()
@@ -56,6 +56,6 @@ class GovSpider(Spider):
             keysentence = [item for item in tr4s.get_key_sentences(num=3)]
             return keyword, keyphase, keysentence
 
-        item['keyword'], item['keyphase'], item['keysentence'] = nlp(item['body'])
+        item['keyword'], item['keyphase'], item['keysentence'] = nlp(item['text'])
 
         yield item
