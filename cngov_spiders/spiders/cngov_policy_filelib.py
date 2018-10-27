@@ -6,6 +6,7 @@ from cngov_spiders.settings import MODE
 from urllib import request
 from bs4 import BeautifulSoup
 from textrank4zh import TextRank4Keyword, TextRank4Sentence
+from datetime import datetime
 
 import re
 
@@ -29,10 +30,10 @@ class GovSpider(Spider):
         print('sites length: ', len(sites))
         for site in sites[1:]:
             item = Website()
-            item['name'] = site.xpath('.//td[2]/a/text()').extract()
+            item['title'] = site.xpath('.//td[2]/a/text()').extract()
             item['url'] = site.xpath('.//td[2]/a/@href')[0].extract()
             if len(site.xpath('.//td[4]/text()').extract()) > 0:
-                item['timestamp'] = '.'.join(re.sub('\D', ' ', site.xpath('.//td[4]/text()').extract()[0]).split())
+                item['author'] = [datetime.strptime('.'.join(re.sub('\D', ' ', site.xpath('.//td[4]/text()').extract()[0]).split()), '%Y.%m.%d')]
             else:
                 continue
             item['belong'] = ['政策']
@@ -45,7 +46,7 @@ class GovSpider(Spider):
         item = response.meta['item']
         contents = response.xpath('//*[@id="UCAP-CONTENT"]/p/text()').extract()
 
-        item['body'] = contents
+        item['text'] = contents
 
         def nlp(contents):
             tr4w = TextRank4Keyword()
@@ -59,6 +60,6 @@ class GovSpider(Spider):
             keysentence = [item for item in tr4s.get_key_sentences(num=3)]
             return keyword, keyphase, keysentence
 
-        item['keyword'], item['keyphase'], item['keysentence'] = nlp(item['body'])
+        item['keyword'], item['keyphase'], item['keysentence'] = nlp(item['text'])
 
         yield item

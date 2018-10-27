@@ -16,8 +16,7 @@ class GovSpider(Spider):
     url = "http://sousuo.gov.cn/column/30469/0.htm?"
     bs = BeautifulSoup(request.urlopen(url), features="lxml")
     page = int(re.sub('\D', '', bs.find_all('form', id='toPage')[0].li.text))
-    #start_urls = ["http://sousuo.gov.cn/column/30469/%s.htm?"%(i) for i in range(page)]
-    start_urls = ["http://sousuo.gov.cn/column/30469/0.htm?"]
+    start_urls = ["http://sousuo.gov.cn/column/30469/%s.htm?"%(i) for i in range(page)]
     def parse(self, response):
         """
         The lines below is a spider contract. For more info see:
