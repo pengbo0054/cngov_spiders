@@ -1,4 +1,4 @@
-cngov_spiders/__pycache__
+cngov_spiders/__pycache__/*
 cngov_spiders/spiders/__pycache__
 .vscode/
 cngov_spiders/settings.py
